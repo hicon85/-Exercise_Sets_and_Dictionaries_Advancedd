@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _02.Sets_of_Elements
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] lenght = Console.ReadLine()
+                 .Split()
+                 .Select(int.Parse)
+                 .ToArray();
+
+            HashSet<int> first = new HashSet<int>();
+            HashSet<int> secunds = new HashSet<int>();
+
+            filSets(first, lenght[0]);
+            filSets(secunds, lenght[1]);
+
+            CheckSets(first, secunds);
+            
+        }
+
+        private static void CheckSets(HashSet<int> first, HashSet<int> secunds)
+        {
+            List<int> numbers = new List<int>();
+
+            foreach (var number in first)
+            {
+                if (secunds.Contains(number))
+                {
+                    numbers.Add(number);
+                }
+            }
+            Console.WriteLine(string.Join(" ",numbers));
+        }
+
+        private static HashSet<int> filSets(HashSet<int> set, int lenght)
+        {
+            for (int i = 0; i < lenght; i++)
+            {
+                set.Add(int.Parse(Console.ReadLine()));
+            }
+            return set;
+        }
+        
+    }
+}
