@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _04.Even_Times
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int lines = int.Parse(Console.ReadLine());
+            Dictionary<int, int> numbers = new Dictionary<int, int>();
+
+            FilesDictionary(numbers, lines);
+
+            PrintRezult(numbers);
+
+
+        }
+
+        private static void PrintRezult(Dictionary<int, int> numbers)
+        {
+            int num = 0;
+
+            foreach (KeyValuePair<int,int> goodJob in numbers)
+            {
+                if(goodJob.Value %2 == 0)
+                {
+                    num = goodJob.Key;
+                }
+
+                
+            }
+            Console.WriteLine(num);
+
+            
+        }
+
+        private static Dictionary<int,int> FilesDictionary(Dictionary<int, int> numbers, int lines)
+        {
+            for (int i = 0; i < lines; i++)
+            {
+                int number = int.Parse(Console.ReadLine());
+
+                if (!numbers.ContainsKey(number))
+                {
+                    numbers.Add(number, 0);
+                }
+                numbers[number]++;
+            }
+            return numbers;
+        }
+    }
+}
