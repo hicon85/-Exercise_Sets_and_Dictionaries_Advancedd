@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _06.Wardrobe
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int lines = int.Parse(Console.ReadLine());
+
+            Dictionary<string, Dictionary<string,int>> wardDrob = new Dictionary<string, Dictionary<string,int>>();
+            FilesWordDrobe(wardDrob, lines);
+
+            string[] cloutsToFind = Console.ReadLine().Split();
+            string color = cloutsToFind[0];
+            string clouth = cloutsToFind[1];
+            PrintRezult(wardDrob, color, clouth);
+        }
+
+        private static void PrintRezult(Dictionary<string, Dictionary<string, int>> wardDrob, string color, string clouth)
+        {
+            foreach (KeyValuePair<string, Dictionary<string,int>> goodJob  in wardDrob)
+            {
+                Console.WriteLine($"{goodJob.Key} clothes:");
+
+                foreach (var clouthing in goodJob.Value)
+                {
+                    if(color == goodJob.Key && clouth == clouthing.Key)
+                    {
+                        Console.WriteLine($"* {clouthing.Key} - {clouthing.Value} (found!)");
+                        continue;
+                    }
+                    Console.WriteLine($"* {clouthing.Key} - {clouthing.Value}");
+                }
+            }
+        }
+
+        private static Dictionary<string, Dictionary<string, int>> FilesWordDrobe(Dictionary<string, Dictionary<string, int>> wardDrob, int lines)
+        {
+            for (int i = 0; i < lines; i++)
+            {
+                string[] input = Console.ReadLine().Split(" -> ");
+                string curentCor = input[0]; //blue
+                string[] closhas = input[1].Split(','); // dress,pants
+
+                if (!wardDrob.ContainsKey(curentCor))
+                {
+                    wardDrob.Add(curentCor, new Dictionary<string, int>());
+                }
+                for (int cloth = 0; cloth < closhas.Length; cloth++)
+                {
+                    if (!wardDrob[curentCor].ContainsKey(closhas[cloth]))
+                    {
+                        wardDrob[curentCor].Add(closhas[cloth],0);
+                    }
+                    wardDrob[curentCor][closhas[cloth]]++;
+                }
+            }
+
+            return wardDrob;
+        }
+    }
+}
