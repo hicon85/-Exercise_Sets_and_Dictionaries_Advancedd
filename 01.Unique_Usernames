@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _01.Unique_Usernames
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            HashSet<string> userName = new HashSet<string>();
+            int n = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+
+                userName.Add(input);
+            }
+            foreach (string goodJob in userName)
+            {
+                Console.WriteLine(goodJob);
+            }
+        }
+    }
+}
