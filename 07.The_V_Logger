@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _07.The_V_Logger
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> vlogars = new Dictionary<string, List<string>>();
+
+            Dictionary<string, int[]> userNumberOfFollers = new Dictionary<string, int[]>();
+
+            string inputLines = Console.ReadLine();
+            while (inputLines?.ToLower() != "statistics")
+            {
+                string[] tokens = inputLines.Split(" ");
+                string userName = tokens[0];
+                string command = tokens[1];
+
+                if(command?.ToLower() == "joined")
+                {
+                    if (!vlogars.ContainsKey(userName))
+                    {
+                        vlogars[userName] = new List<string>();
+                        userNumberOfFollers[userName] = new int[2];
+                    }
+                }
+                else if(command?.ToLower() == "followed")
+                {
+                    string userToFollow = tokens[1];
+
+                    if(vlogars.ContainsKey(userName) && vlogars.ContainsKey(userToFollow))
+                    {
+                        if(!vlogars[userToFollow].Contains(userName) && userName != userToFollow)
+                        {
+                            vlogars[userToFollow].Add(userName);
+                            userNumberOfFollers[userToFollow][0]++;
+                            userNumberOfFollers[userName][1]++;
+                        }
+                    }
+                }
+                inputLines = Console.ReadLine();
+            }
+            Console.WriteLine($"The V-Logger has a total of {vlogars.Count} in its logs.");
+
+            Dictionary<string,int[]> orderUsers = userNumberOfFollers.OrderByDescending(u => u.Value[0])
+                .ThenBy(u => u.Value[1]).ToDictionary(x => x.Key, x => x.Value);
+
+            int count = 1;
+            string userToRemove = "";
+
+            foreach (KeyValuePair<string,int[]> goodJob in userNumberOfFollers)
+            {
+                userToRemove = goodJob.Key;
+                Console.WriteLine($"{count}. {goodJob.Key} : {goodJob.Value[0]} followers, {goodJob.Value[1]} following");
+
+                count++;
+
+                if(vlogars[goodJob.Key].Count > 0)
+                {
+                    foreach (string follower  in vlogars[goodJob.Key].OrderBy(x=>x))
+                    {
+                        Console.WriteLine($"* {follower}");
+                    }
+                }
+                break;
+            }
+            orderUsers.Remove(userToRemove);
+
+            foreach (KeyValuePair<string,int[]> goodJob in orderUsers)
+            {
+                Console.WriteLine($"{count}. {goodJob.Key} : {goodJob.Value[0]} followers, {goodJob.Value[1]} following");
+                count++;
+            }
+        }
+    }
+}
